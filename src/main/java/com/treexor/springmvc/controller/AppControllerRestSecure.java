@@ -25,6 +25,8 @@ import com.treexor.springmvc.model.User;
 import com.treexor.springmvc.service.UserService;
 
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
@@ -32,9 +34,9 @@ import io.swagger.annotations.ApiResponses;
 
 
 @RestController
-@RequestMapping(value = "/api")
+@RequestMapping(value = "/apiSecure")
 @Api(value = "infos", description = "Métodos Disponibles", produces = "application/json")
-public class AppControllerRest {
+public class AppControllerRestSecure {
 
 	@Autowired
 	UserService userService;  //Service which will do all data retrieval/manipulation work
@@ -46,6 +48,10 @@ public class AppControllerRest {
 	//http://localhost:8080/TreexorPruebaTecnica/listUsers/
 	@RequestMapping(value = "/listUsers/", method = RequestMethod.GET ,produces = MediaType.APPLICATION_JSON_VALUE)
 	@ApiOperation(value = "Get Usuarios", notes = "Retorna todos los usuarios ")
+    @ApiImplicitParams({
+    @ApiImplicitParam(name = "j_username", value = "Nombre de Usuario", required = true, dataType = "string", paramType = "form"),
+    @ApiImplicitParam(name = "j_password", value = "Password", required = true, dataType = "password", paramType = "form")
+    })
 	public ResponseEntity<List<User>> listAllUsers() {
 		List<User> users = userService.findAll();
 		if(users.isEmpty()){

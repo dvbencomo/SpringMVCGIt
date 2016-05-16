@@ -29,24 +29,25 @@ public class SwaggerConfig {
 
     @Bean
     public Docket api() {
-        /*return new Docket(
-        			DocumentationType.SWAGGER_2).select().
-        			apis(RequestHandlerSelectors.basePackage("com.treexor.springmvc.controller")).
-        			paths(PathSelectors.regex("/api.*")).
-        			build().apiInfo(apiInfo()).useDefaultResponseMessages(false)
-        			.globalResponseMessage(RequestMethod.GET, newArrayList(new ResponseMessageBuilder().code(500).message("500 message").
-        			responseModel(new ModelRef("Error")).build(), new ResponseMessageBuilder().code(403).message("Forbidden!!!!!").
-        			build()));*/
         return new Docket(DocumentationType.SWAGGER_2)
                 .groupName("TreexorPruebaTecnica")
                 .apiInfo(apiInfo())
                 .directModelSubstitute(LocalDateTime.class, Date.class)
                 .select()
-                .paths(PathSelectors.regex("/api.*"))
+                .paths(PathSelectors.regex("/apiSecure.*"))
                 .build();
-   
     }
     
+    @Bean
+    public Docket api2() {
+        return new Docket(DocumentationType.SWAGGER_2)
+                .groupName("TreexorPruebaTecnica 2")
+                .apiInfo(apiInfo())
+                .directModelSubstitute(LocalDateTime.class, Date.class)
+                .select()
+                .paths(PathSelectors.regex("/api.*"))
+                .build();
+    }
    
     private ApiInfo apiInfo() {
         ApiInfo apiInfo = new ApiInfo("Treexor REST API", "REST API Basada en Spring MVC - CRUD ", 

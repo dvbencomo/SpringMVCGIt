@@ -6,17 +6,20 @@
 	<groupId>com.treexor.springmvc</groupId>
 	<artifactId>TreexorPruebaTecnica</artifactId>
 	<packaging>war</packaging>
-	<version>1.0.1</version>
+	<version>1.1.0</version>
 	<name>TreexorPruebaTecnica</name>
 
 	<properties>
 		<springframework.version>4.2.0.RELEASE</springframework.version>
+		  <org.springframework.security.version>4.0.4.RELEASE</org.springframework.security.version>
 		<jackson.version>2.5.3</jackson.version>
 		<hibernate.version>4.3.10.Final</hibernate.version>
 		<mysql.connector.version>5.1.31</mysql.connector.version>
 		<org.springframework.hateoas.version>0.19.0.RELEASE</org.springframework.hateoas.version>
 		<springfox.version>2.2.2</springfox.version>
         <springfox.version>2.2.2</springfox.version>
+        <jstl.version>1.2</jstl.version>
+        
 	</properties>
 
 <dependencies>
@@ -75,6 +78,21 @@
 		<artifactId>spring-orm</artifactId>
 		<version>${springframework.version}</version>
 	</dependency>
+	
+	<!-- Spring Security  -->
+	
+	 <!-- Spring Security -->
+
+        <dependency>
+            <groupId>org.springframework.security</groupId>
+            <artifactId>spring-security-web</artifactId>
+            <version>${org.springframework.security.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.security</groupId>
+            <artifactId>spring-security-config</artifactId>
+            <version>${org.springframework.security.version}</version>
+        </dependency>
 
 	<!-- Hibernate -->
 	<dependency>
@@ -225,7 +243,12 @@
 		</dependency>
 
 
-
+<!-- jstl for jsp page -->
+		<dependency>
+			<groupId>jstl</groupId>
+			<artifactId>jstl</artifactId>
+			<version>${jstl.version}</version>
+		</dependency>
 
 		<!-- Servlet+JSP+JSTL -->
 		<!-- <dependency> <groupId>javax.servlet</groupId> <artifactId>javax.servlet-api</artifactId> 
