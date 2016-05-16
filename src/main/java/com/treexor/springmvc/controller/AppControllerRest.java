@@ -50,27 +50,6 @@ public class AppControllerRest {
 	//http://localhost:8080/TreexorPruebaTecnica/pages?page=1&size=5
 	
 	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
 	@RequestMapping(value = "/user/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<User> getUser(@PathVariable("id") int id) {
 		System.out.println("Fetching User with id " + id);
