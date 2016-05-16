@@ -5,9 +5,13 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
 import org.springframework.data.web.config.EnableSpringDataWebSupport;
+import org.springframework.hateoas.config.EnableHypermediaSupport;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.view.InternalResourceViewResolver;
 import org.springframework.web.servlet.view.JstlView;
+
+import com.treexor.springmvc.model.Contact;
+import com.treexor.springmvc.repository.ContactRepository;
 
 
 @Configuration

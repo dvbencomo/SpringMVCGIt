@@ -21,7 +21,9 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.UriComponentsBuilder;
 
+import com.treexor.springmvc.model.Contact;
 import com.treexor.springmvc.model.User;
+import com.treexor.springmvc.repository.ContactRepository;
 import com.treexor.springmvc.service.UserService;
 
 import io.swagger.annotations.Api;
@@ -58,6 +60,38 @@ public class AppControllerRestNotSecure {
 	
 	//http://localhost:8080/TreexorPruebaTecnica/pages?page={page}&size={size}
 	//http://localhost:8080/TreexorPruebaTecnica/pages?page=1&size=5
+	
+	@Autowired ContactRepository contactRepository;
+	@RequestMapping(value="/pages",method=RequestMethod.GET)
+	@ResponseBody 
+	public PageResource<Contact> contactsPages(@RequestParam int page,@RequestParam int size) {
+		Pageable pageable = new PageRequest(
+			page,size,new Sort("id")
+		);
+		contactRepository.save(new Contact(1L, "Dani", "Velaz", 35));
+		contactRepository.save(new Contact(2L, "Dani", "Velaz", 35));
+		contactRepository.save(new Contact(3L, "Dani", "Velaz", 35));
+		contactRepository.save(new Contact(4L, "Dani", "Velaz", 35));
+		contactRepository.save(new Contact(5L, "Dani", "Velaz", 35));
+		contactRepository.save(new Contact(6L, "Dani", "Velaz", 35));
+		contactRepository.save(new Contact(7L, "Dani", "Velaz", 35));
+		contactRepository.save(new Contact(8L, "Dani", "Velaz", 35));
+		contactRepository.save(new Contact(9L, "Dani", "Velaz", 35));
+		contactRepository.save(new Contact(10L, "Dani", "Velaz", 35));
+		contactRepository.save(new Contact(11L, "Dani", "Velaz", 35));
+		contactRepository.save(new Contact(12L, "Dani", "Velaz", 35));
+		contactRepository.save(new Contact(13L, "Dani", "Velaz", 35));
+		contactRepository.save(new Contact(14L, "Dani", "Velaz", 35));
+
+		
+		
+		Page<Contact> pageResult = contactRepository.findAll(pageable);
+		return new PageResource<Contact>(pageResult,"page","size");
+	}
+	
+	
+	
+	
 	
 	
 	@RequestMapping(value = "/user/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
