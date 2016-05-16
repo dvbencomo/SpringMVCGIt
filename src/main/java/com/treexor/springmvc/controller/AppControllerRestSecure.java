@@ -48,10 +48,6 @@ public class AppControllerRestSecure {
 	//http://localhost:8080/TreexorPruebaTecnica/listUsers/
 	@RequestMapping(value = "/listUsers/", method = RequestMethod.GET ,produces = MediaType.APPLICATION_JSON_VALUE)
 	@ApiOperation(value = "Get Usuarios", notes = "Retorna todos los usuarios ")
-    @ApiImplicitParams({
-    @ApiImplicitParam(name = "j_username", value = "Nombre de Usuario", required = true, dataType = "string", paramType = "form"),
-    @ApiImplicitParam(name = "j_password", value = "Password", required = true, dataType = "password", paramType = "form")
-    })
 	public ResponseEntity<List<User>> listAllUsers() {
 		List<User> users = userService.findAll();
 		if(users.isEmpty()){
