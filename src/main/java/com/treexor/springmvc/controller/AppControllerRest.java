@@ -24,9 +24,16 @@ import org.springframework.web.util.UriComponentsBuilder;
 import com.treexor.springmvc.model.User;
 import com.treexor.springmvc.service.UserService;
 
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiResponse;
+import io.swagger.annotations.ApiResponses;
+
 
 
 @RestController
+@RequestMapping(value = "/api")
+@Api(value = "infos", description = "Métodos Disponibles", produces = "application/json")
 public class AppControllerRest {
 
 	@Autowired
@@ -37,11 +44,12 @@ public class AppControllerRest {
 	//-------------------Retrieve All Users--------------------------------------------------------
 	
 	//http://localhost:8080/TreexorPruebaTecnica/listUsers/
-	@RequestMapping(value = "/listUsers/", method = RequestMethod.GET)
+	@RequestMapping(value = "/listUsers/", method = RequestMethod.GET ,produces = MediaType.APPLICATION_JSON_VALUE)
+	@ApiOperation(value = "Get Usuarios", notes = "Retorna todos los usuarios ")
 	public ResponseEntity<List<User>> listAllUsers() {
 		List<User> users = userService.findAll();
 		if(users.isEmpty()){
-			return new ResponseEntity<List<User>>(HttpStatus.NO_CONTENT);//You many decide to return HttpStatus.NOT_FOUND
+			return new ResponseEntity<List<User>>(HttpStatus.NOT_FOUND);
 		}
 		return new ResponseEntity<List<User>>(users, HttpStatus.OK);
 	}
@@ -51,8 +59,8 @@ public class AppControllerRest {
 	
 	
 	@RequestMapping(value = "/user/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+	@ApiOperation(value = "get User", notes = "Obtiene Información de un Usuario")
 	public ResponseEntity<User> getUser(@PathVariable("id") int id) {
-		System.out.println("Fetching User with id " + id);
 		User user = userService.findById(id);
 		if (user == null) {
 			System.out.println("User with id " + id + " not found");
@@ -62,58 +70,50 @@ public class AppControllerRest {
 	}
 	
 	//------------------- Delete a User --------------------------------------------------------
+	@RequestMapping(value = "/deleteUser/{id}",  method = RequestMethod.DELETE)
+	@ApiOperation(value = "delete User", notes = "Elimina un Usuario")
+	public ResponseEntity<User> deleteUser(@PathVariable("id") int id) {
+		User user = userService.findById(id);
+		if (user == null) {
+			return new ResponseEntity<User>(HttpStatus.NOT_FOUND);
+		}
+		userService.deleteUserById(id);
+		return new ResponseEntity<User>(HttpStatus.OK);
+	}
+		
+	//-------------------Create a User--------------------------------------------------------
+		
+	@RequestMapping(value = "/user/", method = RequestMethod.POST)
+	@ApiOperation(value = "Create User", notes = "Crea un Usuario")
+	public ResponseEntity<Void> createUser(@RequestBody User user, 	UriComponentsBuilder ucBuilder) {
+		User userAux = userService.findBySSO(user.getSsoId());
+		
+		if (userAux != null ) {
+			return new ResponseEntity<Void>(HttpStatus.CONFLICT);
+		}
+		userService.saveUser(user);
+		HttpHeaders headers = new HttpHeaders();
+		headers.setLocation(ucBuilder.path("/user/{id}").buildAndExpand(user.getId()).toUri());
+		return new ResponseEntity<Void>(headers, HttpStatus.CREATED);
+	}
 	
-		@RequestMapping(value = "/deleteUseruser/{id}",  method = RequestMethod.GET)
-		public ResponseEntity<User> deleteUser(@PathVariable("id") int id) {
-			System.out.println("Fetching & Deleting User with id " + id);
-
-			User user = userService.findById(id);
-			if (user == null) {
-				System.out.println("Unable to delete. User with id " + id + " not found");
-				return new ResponseEntity<User>(HttpStatus.NOT_FOUND);
-			}
-
-			userService.deleteUserById(id);
-			return new ResponseEntity<User>(HttpStatus.OK);
-		}
-
-		
-		//-------------------Create a User--------------------------------------------------------
-		
-		@RequestMapping(value = "/user/", method = RequestMethod.POST)
-		public ResponseEntity<Void> createUser(@RequestBody User user, 	UriComponentsBuilder ucBuilder) {
-			System.out.println("Creating User " + user.getFirstName());
-			User userAux = userService.findBySSO(user.getSsoId());
-			
-			if (userAux != null ) {
-				System.out.println("A User with name " + user.getFirstName() + " already exist");
-				return new ResponseEntity<Void>(HttpStatus.CONFLICT);
-			}
-			userService.saveUser(user);
-			HttpHeaders headers = new HttpHeaders();
-			headers.setLocation(ucBuilder.path("/user/{id}").buildAndExpand(user.getId()).toUri());
-			return new ResponseEntity<Void>(headers, HttpStatus.CREATED);
-		}
+	//------------------- Update a User --------------------------------------------------------
 	
-		//------------------- Update a User --------------------------------------------------------
+	@RequestMapping(value = "/user/{id}", method = RequestMethod.PUT)
+	@ApiOperation(value = "Update User", notes = "Actuliza un Usuario")
+	public ResponseEntity<User> updateUser(@PathVariable("id") String sso, @RequestBody User user) {
+
+		User currentUser = userService.findBySSO(sso);
 		
-		@RequestMapping(value = "/user/{id}", method = RequestMethod.PUT)
-		public ResponseEntity<User> updateUser(@PathVariable("id") String sso, @RequestBody User user) {
-			System.out.println("Updating User " + sso);
-			
-			User currentUser = userService.findBySSO(sso);
-			
-			if (currentUser==null) {
-				System.out.println("User with id " + sso + " not found");
-				return new ResponseEntity<User>(HttpStatus.NOT_FOUND);
-			}
-			currentUser.setEmail(user.getEmail());
-			currentUser.setFirstName(user.getFirstName());
-			currentUser.setLastName(user.getLastName());
-			currentUser.setPassword(user.getPassword());
-			
-			userService.updateUser(currentUser);
-			
-			return new ResponseEntity<User>(currentUser, HttpStatus.OK);
+		if (currentUser==null) {
+			System.out.println("User with id " + sso + " not found");
+			return new ResponseEntity<User>(HttpStatus.NOT_FOUND);
 		}
+		currentUser.setEmail(user.getEmail());
+		currentUser.setFirstName(user.getFirstName());
+		currentUser.setLastName(user.getLastName());
+		currentUser.setPassword(user.getPassword());
+		userService.updateUser(currentUser);
+		return new ResponseEntity<User>(currentUser, HttpStatus.OK);
+	}
 }
