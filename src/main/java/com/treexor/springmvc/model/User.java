@@ -9,29 +9,39 @@ import javax.persistence.Table;
 
 import org.hibernate.validator.constraints.NotEmpty;
 
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
+
 @Entity
 @Table(name="USERS")
+@ApiModel(value="UserModel", description="Atributos del Modelo de datos")
 public class User {
-
+	
+    @ApiModelProperty(value = "1", dataType = "java.lang.Integer", required = false)
 	@Id @GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Integer id;
 
-	@NotEmpty
+    @ApiModelProperty(value = "1111", dataType = "java.lang.Integer", required = true)
+    @NotEmpty
 	@Column(name="SSO_ID", unique=true, nullable=false)
 	private String ssoId;
 	
+    @ApiModelProperty(value = "9876", dataType = "java.lang.String", required = false)
 	@NotEmpty
 	@Column(name="PASSWORD", nullable=false)
 	private String password;
 		
+    @ApiModelProperty(value = "Daniel", dataType = "java.lang.String", required = false)
 	@NotEmpty
 	@Column(name="FIRST_NAME", nullable=false)
 	private String firstName;
 
+    @ApiModelProperty(value = "Velazquez", dataType = "java.lang.String", required = false)
 	@NotEmpty
 	@Column(name="LAST_NAME", nullable=false)
 	private String lastName;
 
+    @ApiModelProperty(value = "dvbencomo@gmail.com", dataType = "java.lang.String", required = false)
 	@NotEmpty
 	@Column(name="EMAIL", nullable=false)
 	private String email;
