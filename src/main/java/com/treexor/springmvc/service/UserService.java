@@ -1,31 +1,20 @@
 package com.treexor.springmvc.service;
 
-import java.io.Serializable;
 import java.util.List;
 
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 import com.treexor.springmvc.model.User;
 
 
-public interface UserService <T extends Serializable> {
+public interface UserService {
 	
-	User findById(int id);
-	
-	User findBySSO(String sso);
-	
-	void saveUser(User user);
-	
-	void updateUser(User user);
-	
-	void deleteUserBySSO(String sso);
-	
-	void deleteUserById(int id);
-
-	Page<T> findAllUsers(int page, int size);
-	
-	List<User> findAll(); 
-	
-	boolean isUserSSOUnique(Integer id, String sso);
+	public User create(User user);
+	public User delete(int id) ;
+	public List<User> findAll();
+	public User update(User user) ;
+	public User findById(int id);
+	public Page<User> findAll(Pageable pageable);
 
 }
