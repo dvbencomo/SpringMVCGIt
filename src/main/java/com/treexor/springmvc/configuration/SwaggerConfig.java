@@ -19,10 +19,23 @@ import java.time.LocalDateTime;
 @ComponentScan(basePackages = {"om.treexor.springmvc.controller"})
 public class SwaggerConfig {
 
+	
+	@Bean
+    public Docket api2() {
+        return new Docket(DocumentationType.SWAGGER_2)
+                .groupName("Métodos sin Seguridad")
+                .apiInfo(apiInfo())
+                .directModelSubstitute(LocalDateTime.class, Date.class)
+                .select()
+                .paths(PathSelectors.regex("/api.*"))
+                .build();
+    }
+	
+	
     @Bean
     public Docket api() {
         return new Docket(DocumentationType.SWAGGER_2)
-                .groupName("TreexorPruebaTecnica")
+                .groupName("Métodos con Seguridad")
                 .apiInfo(apiInfo())
                 .directModelSubstitute(LocalDateTime.class, Date.class)
                 .select()
@@ -30,22 +43,13 @@ public class SwaggerConfig {
                 .build();
     }
     
-    @Bean
-    public Docket api2() {
-        return new Docket(DocumentationType.SWAGGER_2)
-                .groupName("TreexorPruebaTecnica 2")
-                .apiInfo(apiInfo())
-                .directModelSubstitute(LocalDateTime.class, Date.class)
-                .select()
-                .paths(PathSelectors.regex("/api.*"))
-                .build();
-    }
+    
    
     private ApiInfo apiInfo() {
-        ApiInfo apiInfo = new ApiInfo("Treexor REST API", "REST API Basada en Spring MVC - CRUD ", 
-        							   "API 1.0.1", "Terms of service", 
+        ApiInfo apiInfo = new ApiInfo("Treexor API REST", "API REST Basada en Spring MVC - CRUD ", 
+        							   "API 2.0.0", "Terms of service", 
         							   	"dvbencomo@gmail.com", 
-        							   	"License of API", "API license URL");
+        							   	"License of API", "https://github.com/dvbencomo/TreexorPruebaTecnica");
         return apiInfo;
     }
 }

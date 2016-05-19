@@ -62,7 +62,7 @@ public class AppControllerRestNotSecure {
 	@ResponseBody 
 	@ApiOperation(value = "userPages", notes = "Lista Usuarios paginados")
 	public PageResource<User> userPages(@ApiParam(value = "Pagina a la que se desea acceder", required = true) @RequestParam int page,
-											@ApiParam(value = "Número de pegistros por página", required = true)@RequestParam int size) {
+											@ApiParam(value = "Número de registros por página", required = true)@RequestParam int size) {
 		Pageable pageable = new PageRequest(
 			page,size,new Sort("id")
 		);
