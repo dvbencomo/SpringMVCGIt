@@ -96,12 +96,7 @@ public class AppControllerRestSecure {
 	@RequestMapping(value = "/user/", method = RequestMethod.POST)
 	@ApiOperation(value = "createUser", notes = "Creación de un usuario")
 	public ResponseEntity<Void> createUser( @ApiParam(value = "Entidad Usuario")
-											@RequestBody User user, 	UriComponentsBuilder ucBuilder) {
-		User userAux = userService.findById(user.getId());
-		
-		if (userAux != null ) {
-			return new ResponseEntity<Void>(HttpStatus.CONFLICT);
-		}
+											@RequestBody User user, 	UriComponentsBuilder ucBuilder) {		
 		userService.save(user);
 		HttpHeaders headers = new HttpHeaders();
 		headers.setLocation(ucBuilder.path("/user/{id}").buildAndExpand(user.getId()).toUri());

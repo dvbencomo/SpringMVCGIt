@@ -12,7 +12,7 @@ import com.treexor.springmvc.repository.UserRepository;
 
 @Service
 public class UserServiceImpl implements UserService {
-	
+
 	@Autowired
 	private UserRepository userRepository;
 
@@ -21,11 +21,11 @@ public class UserServiceImpl implements UserService {
 	}
 
 	public void delete(int id) {
-		 userRepository.delete(id);;
+		userRepository.delete(id);;
 	}
 
 	public List<User> findAll() {
-		 		return userRepository.findAll();
+		return userRepository.findAll();
 	}
 
 	public User update(User user) {
@@ -33,20 +33,20 @@ public class UserServiceImpl implements UserService {
 	}
 
 	public User findById(int id) {
-		
+
 		return userRepository.findOne(id);
 	}
 
-	
+
 	public Page<User> findAll(Pageable pageable) {
- 		return userRepository.findAll(pageable);
-}
+		return userRepository.findAll(pageable);
+	}
 
 	public void save(User user) {
-			userRepository.save(user);
+		userRepository.save(user);
 	}
-	
-	
-	
+
+
+
 
 }

@@ -32,7 +32,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 			usernameParameter("j_username").
 			passwordParameter("j_password").loginProcessingUrl("/j_spring_security_check");
  
+	    http.csrf().disable();
+
 	}
-	
 
 }
