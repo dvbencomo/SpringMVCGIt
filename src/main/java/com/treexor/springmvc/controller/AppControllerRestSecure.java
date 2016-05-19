@@ -33,9 +33,9 @@ import io.swagger.annotations.ApiResponses;
 
 
 @RestController
-@RequestMapping(value = "/api")
+@RequestMapping(value = "/apiSecure")
 @Api(value = "infos", description = "Métodos Disponibles", produces = "application/json")
-public class AppControllerRestNotSecure {
+public class AppControllerRestSecure {
 
 	@Autowired
 	UserService userService;  //Service which will do all data retrieval/manipulation work

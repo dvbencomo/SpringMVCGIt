@@ -17,13 +17,11 @@ public class UserServiceImpl implements UserService {
 	private UserRepository userRepository;
 
 	public User create(User user) {
-		// TODO Auto-generated method stub
-		return null;
+		return userRepository.save(user);
 	}
 
-	public User delete(int id) {
-		// TODO Auto-generated method stub
-		return null;
+	public void delete(int id) {
+		 userRepository.delete(id);;
 	}
 
 	public List<User> findAll() {
@@ -31,19 +29,22 @@ public class UserServiceImpl implements UserService {
 	}
 
 	public User update(User user) {
-		// TODO Auto-generated method stub
-		return null;
+		return userRepository.saveAndFlush(user);
 	}
 
 	public User findById(int id) {
-		// TODO Auto-generated method stub
-		return null;
+		
+		return userRepository.findOne(id);
 	}
 
 	
 	public Page<User> findAll(Pageable pageable) {
  		return userRepository.findAll(pageable);
 }
+
+	public void save(User user) {
+			userRepository.save(user);
+	}
 	
 	
 	
